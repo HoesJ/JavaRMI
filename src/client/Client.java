@@ -86,8 +86,7 @@ public class Client extends AbstractTestBooking {
 	@Override
 	protected Quote createQuote(String clientName, Date start, Date end, String carType, String region)
 			throws Exception {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("TODO");
+		return new Quote(clientName, start, end, "G&H renting", carType, rentalPrice)
 	}
 
 	/**
