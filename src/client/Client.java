@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.plaf.synth.SynthEditorPaneUI;
+
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -113,8 +115,7 @@ public class Client extends AbstractTestBooking {
 	 */
 	@Override
 	protected List<Reservation> getReservationsByRenter(String clientName) throws Exception {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("TODO");
+		return crc.getReservationByRenter(clientName);
 	}
 
 	/**
@@ -127,7 +128,6 @@ public class Client extends AbstractTestBooking {
 	 */
 	@Override
 	protected int getNumberOfReservationsForCarType(String carType) throws Exception {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("TODO");
+		return crc.getNumberOfReservationsForCarType(carType);
 	}
 }

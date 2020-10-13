@@ -3,6 +3,7 @@ package rental;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Car {
 
@@ -58,6 +59,15 @@ public class Car {
     
     public void removeReservation(Reservation reservation) {
         // equals-method for Reservation is required!
-        reservations.remove(reservation);
+        reservations.
+        remove(reservation);
+    }
+
+    public List<Reservation> getReservationForRenter(String clientName) {
+        return reservations.stream().filter(x -> x.getCarRenter().equals(clientName)).collect(Collectors.toList());
+    }
+
+    public int getNumberReservations() {
+        return reservations.size();
     }
 }
