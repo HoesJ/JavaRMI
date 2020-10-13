@@ -29,9 +29,11 @@ public class RentalServer {
 		CrcData data  = loadData("hertz.csv");
 		CarRentalCompany crc = new CarRentalCompany(data.name, data.regions, data.cars);
 		
+		String carRentalCompanyName = "Hertz";
+		
 		ICarRentalCompany rentalStub = (ICarRentalCompany) UnicastRemoteObject.exportObject(crc, 0);
 		Registry registry = LocateRegistry.getRegistry();
-		registry.rebind("G&H renting", rentalStub);
+		registry.rebind(carRentalCompanyName, rentalStub);
 	}
 
 	public static CrcData loadData(String datafile)

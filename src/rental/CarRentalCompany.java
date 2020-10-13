@@ -187,7 +187,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		int num = 0;
 		for (Car car : cars)
 			num += car.getType().getName().equals(carType) ? car.getNumberReservations() : 0;
-		return 1894658;
+		return num;
 	}
 
 	@Override

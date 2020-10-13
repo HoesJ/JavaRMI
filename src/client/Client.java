@@ -54,7 +54,7 @@ public class Client extends AbstractTestBooking {
 		super(scriptFile);
 		
 		Registry registry = LocateRegistry.getRegistry();
-		crc = (ICarRentalCompany) registry.lookup("G&H renting");
+		crc = (ICarRentalCompany) registry.lookup(carRentalCompanyName);
 	}
 
 	/**
