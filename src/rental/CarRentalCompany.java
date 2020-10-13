@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CarRentalCompany {
+public class CarRentalCompany implements ICarRentalCompany {
 
 	private static Logger logger = Logger.getLogger(CarRentalCompany.class.getName());
 	
@@ -38,6 +38,7 @@ public class CarRentalCompany {
 	 * NAME *
 	 ********/
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -53,11 +54,13 @@ public class CarRentalCompany {
         this.regions = regions;
     }
     
-    public List<String> getRegions() {
+    @Override
+	public List<String> getRegions() {
         return this.regions;
     }
     
-    public boolean operatesInRegion(String region) {
+    @Override
+	public boolean operatesInRegion(String region) {
         return this.regions.contains(region);
     }
 	
@@ -65,10 +68,12 @@ public class CarRentalCompany {
 	 * CAR TYPES *
 	 *************/
 
+	@Override
 	public Collection<CarType> getAllCarTypes() {
 		return carTypes.values();
 	}
 	
+	@Override
 	public CarType getCarType(String carTypeName) {
 		if(carTypes.containsKey(carTypeName))
 			return carTypes.get(carTypeName);
@@ -76,6 +81,7 @@ public class CarRentalCompany {
 	}
 	
 	// mark
+	@Override
 	public boolean isAvailable(String carTypeName, Date start, Date end) {
 		logger.log(Level.INFO, "<{0}> Checking availability for car type {1}", new Object[]{name, carTypeName});
 		if(carTypes.containsKey(carTypeName)) {
@@ -85,6 +91,7 @@ public class CarRentalCompany {
 		}
 	}
 	
+	@Override
 	public Set<CarType> getAvailableCarTypes(Date start, Date end) {
 		Set<CarType> availableCarTypes = new HashSet<CarType>();
 		for (Car car : cars) {
@@ -121,6 +128,7 @@ public class CarRentalCompany {
 	 * RESERVATIONS *
 	 ****************/
 
+	@Override
 	public Quote createQuote(ReservationConstraints constraints, String client)
 			throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Creating tentative reservation for {1} with constraints {2}", 
@@ -144,6 +152,7 @@ public class CarRentalCompany {
 						/ (1000 * 60 * 60 * 24D));
 	}
 
+	@Override
 	public Reservation confirmQuote(Quote quote) throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Reservation of {1}", new Object[]{name, quote.toString()});
 		List<Car> availableCars = getAvailableCars(quote.getCarType(), quote.getStartDate(), quote.getEndDate());
@@ -157,6 +166,7 @@ public class CarRentalCompany {
 		return res;
 	}
 
+	@Override
 	public void cancelReservation(Reservation res) {
 		logger.log(Level.INFO, "<{0}> Cancelling reservation {1}", new Object[]{name, res.toString()});
 		getCar(res.getCarId()).removeReservation(res);

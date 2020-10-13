@@ -1,8 +1,14 @@
 package rental;
 
-public class CarType {
+import java.io.Serializable;
+
+public class CarType implements Serializable {
     
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1944224541259955545L;
+	private String name;
     private int nbOfSeats;
     private boolean smokingAllowed;
     private double rentalPricePerDay;

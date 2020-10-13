@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.invoke.MethodHandles;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,13 +20,18 @@ public class RentalServer {
 
 	public static void main(String[] args) throws ReservationException,
 			NumberFormatException, IOException {
+		System.setSecurityManager(null);
+		
 		// The first argument passed to the `main` method (if present)
 		// indicates whether the application is run on the remote setup or not.
 		int localOrRemote = (args.length == 1 && args[0].equals("REMOTE")) ? REMOTE : LOCAL;
 
 		CrcData data  = loadData("hertz.csv");
-		new CarRentalCompany(data.name, data.regions, data.cars);
+		CarRentalCompany crc = new CarRentalCompany(data.name, data.regions, data.cars);
 		
+		ICarRentalCompany rentalStub = (ICarRentalCompany) UnicastRemoteObject.exportObject(crc, 0);
+		Registry registry = LocateRegistry.getRegistry();
+		registry.rebind("G&H renting", rentalStub);
 	}
 
 	public static CrcData loadData(String datafile)
