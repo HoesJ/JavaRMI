@@ -122,7 +122,8 @@ public class Client extends AbstractTestBooking {
 		List<Reservation> reservations = crc.getReservationByRenter(clientName);
 		
 		for (Reservation reservation : reservations) {
-			System.out.println(reservation);
+			System.out.println(String.format("Reservation of car type %s, car ID %d from %s to %s at a price of %.2f.", 
+	                reservation.getCarType(), reservation.getCarId(), reservation.getStartDate(), reservation.getEndDate(), reservation.getRentalPrice()));
 		}
 		return reservations;
 	}
@@ -138,7 +139,7 @@ public class Client extends AbstractTestBooking {
 	@Override
 	protected int getNumberOfReservationsForCarType(String carType) throws Exception {
 		int nbReservations = crc.getNumberOfReservationsForCarType(carType);
-		System.out.println(String.format("There are %d reservations for car type %s.", nbReservations, carType));
+		System.out.println(String.format("There are %d reservations for car type %s", nbReservations, carType));
 		
 		return nbReservations;
 	}
