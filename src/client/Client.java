@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.plaf.synth.SynthEditorPaneUI;
-
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -89,7 +87,10 @@ public class Client extends AbstractTestBooking {
 	@Override
 	protected Quote createQuote(String clientName, Date start, Date end, String carType, String region)
 			throws Exception {
-		return crc.createQuote(new ReservationConstraints(start, end, carType, region), clientName);
+		Quote quote = crc.createQuote(new ReservationConstraints(start, end, carType, region), clientName);
+		System.out.println(quote);
+		
+		return quote;
 	}
 
 	/**
@@ -102,7 +103,10 @@ public class Client extends AbstractTestBooking {
 	 */
 	@Override
 	protected Reservation confirmQuote(Quote quote) throws Exception {
-		return crc.confirmQuote(quote);
+		Reservation reservation = crc.confirmQuote(quote);
+		System.out.println(reservation);
+		
+		return reservation;
 	}
 
 	/**
@@ -115,7 +119,12 @@ public class Client extends AbstractTestBooking {
 	 */
 	@Override
 	protected List<Reservation> getReservationsByRenter(String clientName) throws Exception {
-		return crc.getReservationByRenter(clientName);
+		List<Reservation> reservations = crc.getReservationByRenter(clientName);
+		
+		for (Reservation reservation : reservations) {
+			System.out.println(reservation);
+		}
+		return reservations;
 	}
 
 	/**
@@ -128,6 +137,9 @@ public class Client extends AbstractTestBooking {
 	 */
 	@Override
 	protected int getNumberOfReservationsForCarType(String carType) throws Exception {
-		return crc.getNumberOfReservationsForCarType(carType);
+		int nbReservations = crc.getNumberOfReservationsForCarType(carType);
+		System.out.println(String.format("There are %d reservations for car type %s.", nbReservations, carType));
+		
+		return nbReservations;
 	}
 }
