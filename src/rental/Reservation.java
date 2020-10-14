@@ -2,7 +2,11 @@ package rental;
 
 public class Reservation extends Quote {
 
-    private int carId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6427799148264889063L;
+	private int carId;
     
     /***************
 	 * CONSTRUCTOR *
