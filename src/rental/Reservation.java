@@ -1,5 +1,7 @@
 package rental;
 
+import agency.Quote;
+
 public class Reservation extends Quote {
 
     /**

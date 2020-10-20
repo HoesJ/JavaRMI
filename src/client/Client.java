@@ -8,9 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import agency.Quote;
 import rental.CarType;
 import rental.ICarRentalCompany;
-import rental.Quote;
 import rental.Reservation;
 import rental.ReservationConstraints;
 
