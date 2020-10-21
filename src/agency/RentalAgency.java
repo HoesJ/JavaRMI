@@ -42,7 +42,7 @@ public class RentalAgency {
 	}
 	
 	public ManagerSession getNewManagerSession() {
-		return new ManagerSession();
+		return new ManagerSession(this);
 	}
 	
 }

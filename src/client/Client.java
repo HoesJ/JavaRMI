@@ -8,13 +8,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import agency.ManagerSession;
 import agency.Quote;
+import agency.ReservationSession;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Reservation;
 import rental.ReservationConstraints;
 
-public class Client extends AbstractTestBooking {
+public class Client extends AbstractTestBooking<ReservationSession, ManagerSession> {
 
 	/********
 	 * MAIN *
