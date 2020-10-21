@@ -16,7 +16,7 @@ import rental.ICarRentalCompany;
 import rental.Reservation;
 import rental.ReservationConstraints;
 
-public class Client extends AbstractTestBooking<ReservationSession, ManagerSession> {
+public class Client extends AbstractTestManagement<ReservationSession, ManagerSession> {
 
 	/********
 	 * MAIN *
