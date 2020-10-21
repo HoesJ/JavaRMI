@@ -11,13 +11,12 @@ import rental.Reservation;
 import rental.ReservationConstraints;
 import rental.ReservationException;
 
-public class ReservationSession {
+public class ReservationSession extends Session {
 	
-	private RentalAgency agency;
 	private Set<Quote> quotes = new HashSet<>();
 	
 	public ReservationSession(RentalAgency agency) {
-		this.agency = agency;
+		super(agency);
 	}
 	
 	public void createQuote(ReservationConstraints constraints, String client) throws ReservationException, java.rmi.RemoteException {

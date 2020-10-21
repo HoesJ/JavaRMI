@@ -3,6 +3,7 @@ package rental;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import agency.Quote;
@@ -45,4 +46,6 @@ public interface ICarRentalCompany extends java.rmi.Remote {
 	List<Reservation> getReservationByRenter(String clientName) throws java.rmi.RemoteException;
 
 	int getNumberOfReservationsForCarType(String carType) throws java.rmi.RemoteException;
+	
+	public Set<Reservation> getAllReservations() throws java.rmi.RemoteException;
 }
