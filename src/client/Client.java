@@ -42,7 +42,7 @@ public class Client extends AbstractTestManagement<ReservationSession, ManagerSe
 		String rentalAgencyName = "G&H rental service";
 
 		// An example reservation scenario on car rental company 'Hertz' would be...
-		Client client = new Client("simpleTrips", rentalAgencyName, localOrRemote);
+		Client client = new Client("trips", rentalAgencyName, localOrRemote);
 		client.run();
 	}
 

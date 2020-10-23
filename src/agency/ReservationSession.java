@@ -15,6 +15,11 @@ import rental.ReservationException;
 
 public class ReservationSession extends Session {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 857999803245762097L;
+	
 	private Set<Quote> quotes = new HashSet<>();
 	
 	public ReservationSession(IRentalAgency agency, String owner) {

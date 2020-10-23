@@ -18,6 +18,11 @@ import rental.Reservation;
 
 public class ManagerSession extends Session {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 383901569956994876L;
+
 	public ManagerSession(IRentalAgency agency, String owner) {
 		super(agency, owner);
 	}

@@ -1,6 +1,13 @@
 package agency;
 
-public class Session {
+import java.io.Serializable;
+
+public class Session implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8636680286674609205L;
 	
 	protected IRentalAgency agency;
 	protected String sessionOwner;
