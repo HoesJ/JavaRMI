@@ -26,16 +26,29 @@ public class ReservationSession extends Session {
 		super(agency, owner);
 	}
 	
-	public void checkForAvailableCarTypes(Date start, Date end) throws Exception {
-		for (ICarRentalCompany crc : agency.getCompanies()) {
-			Set<CarType> cars = crc.getAvailableCarTypes(start, end);
-			
-			for (CarType car : cars) {
-				System.out.println(car);
-			}
+	/**
+	 * Get the set of all available car types in a given period.
+	 */
+	private Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
+		Set<CarType> types = new HashSet<>();
+		for (ICarRentalCompany company : agency.getCompanies()) {
+			types.addAll(company.getAvailableCarTypes(start, end));
 		}
+		
+		return types;
 	}
 	
+	/**
+	 * Print the available car types in a given period.
+	 */
+	public void checkForAvailableCarTypes(Date start, Date end) throws Exception {
+		for (CarType car : getAvailableCarTypes(start, end))
+			System.out.println(car);
+	}
+	
+	/**
+	 * Create a quote for the given client with the given constraints.
+	 */
 	public void createQuote(ReservationConstraints constraints, String client) throws ReservationException, java.rmi.RemoteException {
 		for (ICarRentalCompany company : agency.getCompanies()) {
 			try {
@@ -49,10 +62,16 @@ public class ReservationSession extends Session {
 		throw new ReservationException("<" + agency.getName() + "> No cars available to satisfy the given constraints.");
 	}
 	
+	/**
+	 * Get the set of pending quotes of this reservation session.
+	 */
 	public Set<Quote> getCurrentQuotes() {
 		return new HashSet<Quote>(quotes);
 	}
 	
+	/**
+	 * Confirm all quotes of this reservation session.
+	 */
 	public List<Reservation> confirmQuotes() throws RemoteException, ReservationException {
 		List<Reservation> reservations = new ArrayList<>();
 		for (Quote quote : quotes) {
@@ -71,15 +90,9 @@ public class ReservationSession extends Session {
 		return reservations;
 	}
 	
-	public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
-		Set<CarType> types = new HashSet<>();
-		for (ICarRentalCompany company : agency.getCompanies()) {
-			types.addAll(company.getAvailableCarTypes(start, end));
-		}
-		
-		return types;
-	}
-	
+	/**
+	 * Get the set of available car types in a given region for a given period.
+	 */
 	public Set<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
 		Set<CarType> types = new HashSet<>();
 		for (ICarRentalCompany company : agency.getCompanies()) {
@@ -90,6 +103,9 @@ public class ReservationSession extends Session {
 		return types;
 	}
 	
+	/**
+	 * Get the cheapest available car type in a given region for a given period.
+	 */
 	public CarType getCheapestCarType(Date start, Date end, String region) throws RemoteException {
 		return getAvailableCarTypesForRegion(start, end, region).stream().reduce((CarType type1, CarType type2) ->
 														 				 		 (type1.getRentalPricePerDay() < type2.getRentalPricePerDay()) ?

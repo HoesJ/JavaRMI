@@ -1,5 +1,6 @@
 package rental;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ public interface IRentalAgency extends java.rmi.Remote {
 
 	String getName() throws RemoteException;
 
-	void addCompany(ICarRentalCompany company) throws RemoteException;
+	void addCompany(String crcName) throws RemoteException, NotBoundException;
 
 	void removeCompany(ICarRentalCompany company) throws RemoteException;
 

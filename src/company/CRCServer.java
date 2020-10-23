@@ -13,23 +13,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class RentalServer {
+public class CRCServer {
 	
 	private final static int LOCAL = 0;
 	private final static int REMOTE = 1;
-
-	public static void main(String[] args) throws ReservationException,
-			NumberFormatException, IOException {
-		System.setSecurityManager(null);
-		
-		// The first argument passed to the `main` method (if present)
-		// indicates whether the application is run on the remote setup or not.
-		int localOrRemote = (args.length == 1 && args[0].equals("REMOTE")) ? REMOTE : LOCAL;
-
-		CrcData data  = loadData("hertz.csv");
+	
+	/**
+	 * Create new car rental company server that will communicate with the rental agency.
+	 */
+	public CRCServer(int localOrRemote, String carRentalCompanyName, String file) throws NumberFormatException,
+			ReservationException, IOException {
+		CrcData data  = loadData(file);
 		CarRentalCompany crc = new CarRentalCompany(data.name, data.regions, data.cars);
-		
-		String carRentalCompanyName = "Hertz";
 		
 		ICarRentalCompany rentalStub = (ICarRentalCompany) UnicastRemoteObject.exportObject(crc, 0);
 		Registry registry = LocateRegistry.getRegistry();
