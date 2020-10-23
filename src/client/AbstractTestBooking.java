@@ -95,7 +95,7 @@ public abstract class AbstractTestBooking<ReservationSession, ManagerSession> ex
      *
      * @throws Exception if things go wrong, throw exception
      */
-    protected abstract int getNumberOfReservationsForCarType(ManagerSession ms, String carRentalName, String carType) throws Exception;    
+    protected abstract int getNumberOfReservationsForCarType(ManagerSession ms, String carRentalName, String carType) throws Exception;
 
     public AbstractTestBooking(String scriptFile) {
         super(scriptFile);

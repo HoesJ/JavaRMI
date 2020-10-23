@@ -1,48 +1,59 @@
 package agency;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import rental.ICarRentalCompany;
 
-public class RentalAgency {
+public class RentalAgency implements IRentalAgency {
 	
 	private String name;
 	
-	private Map<String, ICarRentalCompany> companies = new HashMap<>();
+	private Set<ICarRentalCompany> companies = new HashSet<>();
 	
-	// TODO: Bind in rmi registry (main).
 	public RentalAgency(String name) {
 		this.name = name;
 	}
 	
+	@Override
 	public String getName() {
 		return name;
 	}
 	
+	@Override
 	public void addCompany(ICarRentalCompany company) throws RemoteException {
-		companies.put(company.getName(), company);
+		companies.add(company);
 	}
 	
+	@Override
 	public void removeCompany(ICarRentalCompany company) throws RemoteException {
-		companies.remove(company.getName());
+		companies.remove(company);
 	}
 	
-	public ICarRentalCompany getCompany(String name) {
-		return companies.get(name);
+	@Override
+	public ICarRentalCompany getCompany(String name) throws RemoteException {
+		for (ICarRentalCompany company : companies) {
+			if (company.getName().equals(name))
+				return company;
+		}
+		
+		return null;
 	}
 	
-	public Map<String, ICarRentalCompany> getCompanies() {
-		return new HashMap<>(companies);
+	@Override
+	public Set<ICarRentalCompany> getCompanies() {
+		return new HashSet<>(companies);
 	}
 	
-	public ReservationSession getNewReservationSession() {
-		return new ReservationSession(this);
+	@Override
+	public ReservationSession getNewReservationSession(String owner) {
+		return new ReservationSession(this, owner);
 	}
 	
-	public ManagerSession getNewManagerSession() {
-		return new ManagerSession(this);
+	@Override
+	public ManagerSession getNewManagerSession(String owner) {
+		return new ManagerSession(this, owner);
 	}
 	
 }

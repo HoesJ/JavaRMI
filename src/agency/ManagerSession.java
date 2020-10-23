@@ -15,18 +15,31 @@ import rental.Reservation;
 
 public class ManagerSession extends Session {
 	
-	public ManagerSession(RentalAgency agency) {
-		super(agency);
+	public ManagerSession(IRentalAgency agency, String owner) {
+		super(agency, owner);
 	}
 	
 	public int getNumberOfReservationsForCarType(String company, String type) throws RemoteException {
 		return agency.getCompany(company).getNumberOfReservationsForCarType(type);
 	}
 	
+	private Set<Car> getAllCars(String companyName) throws RemoteException {
+		return agency.getCompany(companyName).getAllCars();
+	}
+	
+	private Set<Car> getAllCars() throws RemoteException {
+		Set<Car> cars = new HashSet<>();
+		for (ICarRentalCompany company : agency.getCompanies()) {
+			cars.addAll(company.getAllCars());
+		}
+		
+		return cars;
+	}
+	
 	private Set<Reservation> getAllReservations() throws RemoteException {
     	Set<Reservation> reservations = new HashSet<>();
-    	for (ICarRentalCompany company : agency.getCompanies().values())
-    		reservations.addAll(company.getAllReservations());
+    	for (Car car : getAllCars())
+    		reservations.addAll(car.getAllReservations());
     	
     	return reservations;
     }
@@ -43,7 +56,7 @@ public class ManagerSession extends Session {
 		return numResByRenter;
 	}
 	
-	public Set<String> getBestRenter() throws RemoteException {
+	public Set<String> getBestRenters() throws RemoteException {
 		Map<String, Integer> numResByRenter = getNumResByRenter();
 		int highestValue = numResByRenter.values().stream().reduce((Integer num1, Integer num2) -> (num1 < num2 ? num2 : num1)).get();
 		return numResByRenter.keySet().stream().filter(name -> numResByRenter.get(name) == highestValue).collect(Collectors.toSet());
@@ -54,17 +67,19 @@ public class ManagerSession extends Session {
 		return numRes == null ? 0 : numRes;
 	}
 	
-	public String getMostPopularCarType(Date date) throws RemoteException {
-		Map<String, Integer> numResByCarType = new HashMap<>();
-		for (Reservation reservation : getAllReservations().stream().filter(reservation -> date.before(reservation.getStartDate()))
-																	.collect(Collectors.toSet())) {
-			if (numResByCarType.containsKey(reservation.getCarType()))
-				numResByCarType.put(reservation.getCarType(), numResByCarType.get(reservation.getCarType()) + 1);
+	public CarType getMostPopularCarType(Date start, Date end, String carRentalCompanyName) throws RemoteException {
+		Map<CarType, Integer> numResByCarType = new HashMap<>();
+		for (Car car : getAllCars(carRentalCompanyName)) {
+			long nbReservations = car.getAllReservations().stream().filter(reservation -> start.before(reservation.getStartDate()) &&
+																						  end.after(reservation.getStartDate())).count();
+			
+			if (numResByCarType.containsKey(car.getType()))
+				numResByCarType.put(car.getType(), numResByCarType.get(car.getType()) + (int)nbReservations);
 			else
-				numResByCarType.put(reservation.getCarType(), 1);
+				numResByCarType.put(car.getType(), (int)nbReservations);
 		}
 		
-		return numResByCarType.entrySet().stream().reduce((Map.Entry<String, Integer> entry1, Map.Entry<String, Integer> entry2) ->
+		return numResByCarType.entrySet().stream().reduce((Map.Entry<CarType, Integer> entry1, Map.Entry<CarType, Integer> entry2) ->
 														  (entry1.getValue() < entry2.getValue() ? entry2 : entry1)).get().getKey();
 	}
 	

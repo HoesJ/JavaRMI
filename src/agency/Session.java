@@ -2,10 +2,12 @@ package agency;
 
 public class Session {
 	
-	protected RentalAgency agency;
+	protected IRentalAgency agency;
+	protected String sessionOwner;
 	
-	public Session(RentalAgency agency) {
+	public Session(IRentalAgency agency, String owner) {
 		this.agency = agency;
+		this.sessionOwner = owner;
 	}
 	
 }

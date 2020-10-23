@@ -1,8 +1,10 @@
 package agency;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import rental.CarType;
@@ -15,12 +17,22 @@ public class ReservationSession extends Session {
 	
 	private Set<Quote> quotes = new HashSet<>();
 	
-	public ReservationSession(RentalAgency agency) {
-		super(agency);
+	public ReservationSession(IRentalAgency agency, String owner) {
+		super(agency, owner);
+	}
+	
+	public void checkForAvailableCarTypes(Date start, Date end) throws Exception {
+		for (ICarRentalCompany crc : agency.getCompanies()) {
+			Set<CarType> cars = crc.getAvailableCarTypes(start, end);
+			
+			for (CarType car : cars) {
+				System.out.println(car);
+			}
+		}
 	}
 	
 	public void createQuote(ReservationConstraints constraints, String client) throws ReservationException, java.rmi.RemoteException {
-		for (ICarRentalCompany company : agency.getCompanies().values()) {
+		for (ICarRentalCompany company : agency.getCompanies()) {
 			try {
 				quotes.add(company.createQuote(constraints, client));
 				break;
@@ -36,8 +48,8 @@ public class ReservationSession extends Session {
 		return new HashSet<Quote>(quotes);
 	}
 	
-	public Set<Reservation> confirmQuotes() throws RemoteException, ReservationException {
-		Set<Reservation> reservations = new HashSet<>();
+	public List<Reservation> confirmQuotes() throws RemoteException, ReservationException {
+		List<Reservation> reservations = new ArrayList<>();
 		for (Quote quote : quotes) {
 			try {
 				Reservation reservation = agency.getCompany(quote.getRentalCompany()).confirmQuote(quote);
@@ -56,7 +68,7 @@ public class ReservationSession extends Session {
 	
 	public Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
 		Set<CarType> types = new HashSet<>();
-		for (ICarRentalCompany company : agency.getCompanies().values()) {
+		for (ICarRentalCompany company : agency.getCompanies()) {
 			types.addAll(company.getAvailableCarTypes(start, end));
 		}
 		
@@ -65,7 +77,7 @@ public class ReservationSession extends Session {
 	
 	public Set<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
 		Set<CarType> types = new HashSet<>();
-		for (ICarRentalCompany company : agency.getCompanies().values()) {
+		for (ICarRentalCompany company : agency.getCompanies()) {
 			if (company.getRegions().contains(region))
 				types.addAll(company.getAvailableCarTypes(start, end));
 		}

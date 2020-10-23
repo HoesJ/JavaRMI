@@ -47,5 +47,6 @@ public interface ICarRentalCompany extends java.rmi.Remote {
 
 	int getNumberOfReservationsForCarType(String carType) throws java.rmi.RemoteException;
 	
-	public Set<Reservation> getAllReservations() throws java.rmi.RemoteException;
+	public Set<Car> getAllCars() throws java.rmi.RemoteException;
+	
 }
