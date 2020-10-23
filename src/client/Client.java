@@ -55,6 +55,7 @@ public class Client extends AbstractTestManagement<ReservationSession, ManagerSe
 	public Client(String scriptFile, String rentalAgencyName, int localOrRemote) throws RemoteException, NotBoundException {
 		super(scriptFile);
 		
+		// TODO: get remote registry.
 		Registry registry = LocateRegistry.getRegistry();
 		agency = (IRentalAgency) registry.lookup(rentalAgencyName);
 	}

@@ -15,13 +15,10 @@ import java.util.StringTokenizer;
 
 public class CRCServer {
 	
-	private final static int LOCAL = 0;
-	private final static int REMOTE = 1;
-	
 	/**
 	 * Create new car rental company server that will communicate with the rental agency.
 	 */
-	public CRCServer(int localOrRemote, String carRentalCompanyName, String file) throws NumberFormatException,
+	public CRCServer(String carRentalCompanyName, String file) throws NumberFormatException,
 			ReservationException, IOException {
 		CrcData data  = loadData(file);
 		CarRentalCompany crc = new CarRentalCompany(data.name, data.regions, data.cars);
