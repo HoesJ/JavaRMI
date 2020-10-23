@@ -1,6 +1,9 @@
 package agency;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +20,15 @@ public class ManagerSession extends Session {
 	
 	public ManagerSession(IRentalAgency agency, String owner) {
 		super(agency, owner);
+	}
+	
+	public void registerCRC(String crcName) throws RemoteException, NotBoundException {
+		Registry registry = LocateRegistry.getRegistry();
+		agency.addCompany((ICarRentalCompany) registry.lookup(crcName));
+	}
+	
+	public void unRegisterCRC(ICarRentalCompany company) throws RemoteException {
+		agency.removeCompany(company);
 	}
 	
 	public int getNumberOfReservationsForCarType(String company, String type) throws RemoteException {

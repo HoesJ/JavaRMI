@@ -39,10 +39,10 @@ public class Client extends AbstractTestManagement<ReservationSession, ManagerSe
 		// indicates whether the application is run on the remote setup or not.
 		int localOrRemote = (args.length == 1 && args[0].equals("REMOTE")) ? REMOTE : LOCAL;
 
-		String carRentalCompanyName = "Hertz";
+		String rentalAgencyName = "G&H rental service";
 
 		// An example reservation scenario on car rental company 'Hertz' would be...
-		Client client = new Client("simpleTrips", carRentalCompanyName, localOrRemote);
+		Client client = new Client("simpleTrips", rentalAgencyName, localOrRemote);
 		client.run();
 	}
 
@@ -52,11 +52,11 @@ public class Client extends AbstractTestManagement<ReservationSession, ManagerSe
 	 * @throws NotBoundException *
 	 ***************/
 
-	public Client(String scriptFile, String carRentalCompanyName, int localOrRemote) throws RemoteException, NotBoundException {
+	public Client(String scriptFile, String rentalAgencyName, int localOrRemote) throws RemoteException, NotBoundException {
 		super(scriptFile);
 		
 		Registry registry = LocateRegistry.getRegistry();
-		agency = (IRentalAgency) registry.lookup("G&H rental service");
+		agency = (IRentalAgency) registry.lookup(rentalAgencyName);
 	}
 	
 	/**
