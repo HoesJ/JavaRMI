@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import rental.Reservation;
+import company.Reservation;
 
 /*
  * This class contains the abstract methods that a client should implement

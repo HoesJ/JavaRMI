@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import rental.CarType;
+import company.CarType;
 
 /*
  * This class contains the abstract methods that a client should implement

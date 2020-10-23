@@ -1,4 +1,4 @@
-package rental;
+package company;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ public class CarType implements Serializable {
 	 * CONSTRUCTOR *
 	 ***************/
     
-    CarType(String name, int nbOfSeats, float trunkSpace, double rentalPricePerDay, boolean smokingAllowed) {
+    public CarType(String name, int nbOfSeats, float trunkSpace, double rentalPricePerDay, boolean smokingAllowed) {
         this.name = name;
         this.nbOfSeats = nbOfSeats;
         this.trunkSpace = trunkSpace;

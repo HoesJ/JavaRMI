@@ -1,4 +1,4 @@
-package rental;
+package company;
 
 import java.util.ArrayList;
 import java.util.Date;

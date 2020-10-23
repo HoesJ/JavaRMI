@@ -1,4 +1,4 @@
-package agency;
+package rental;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import rental.CarType;
-import rental.ICarRentalCompany;
-import rental.Reservation;
-import rental.ReservationConstraints;
-import rental.ReservationException;
+import company.CarType;
+import company.ICarRentalCompany;
+import company.Reservation;
+import company.ReservationConstraints;
+import company.ReservationException;
 
 public class ReservationSession extends Session {
 	

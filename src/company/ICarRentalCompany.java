@@ -1,4 +1,4 @@
-package rental;
+package company;
 
 import java.util.Collection;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import agency.Quote;
+import rental.Quote;
 
 public interface ICarRentalCompany extends java.rmi.Remote {
 

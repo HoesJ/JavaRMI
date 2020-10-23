@@ -1,6 +1,6 @@
-package rental;
+package company;
 
-import agency.Quote;
+import rental.Quote;
 
 public class Reservation extends Quote {
 

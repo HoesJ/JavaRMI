@@ -11,12 +11,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
-import agency.IRentalAgency;
-import agency.ManagerSession;
-import agency.ReservationSession;
-import rental.CarType;
-import rental.Reservation;
-import rental.ReservationConstraints;
+import company.CarType;
+import company.Reservation;
+import company.ReservationConstraints;
+import rental.IRentalAgency;
+import rental.ManagerSession;
+import rental.ReservationSession;
 
 public class Client extends AbstractTestManagement<ReservationSession, ManagerSession> {
 

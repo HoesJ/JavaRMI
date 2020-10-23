@@ -1,4 +1,4 @@
-package agency;
+package rental;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -11,10 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import rental.Car;
-import rental.CarType;
-import rental.ICarRentalCompany;
-import rental.Reservation;
+import company.Car;
+import company.CarType;
+import company.ICarRentalCompany;
+import company.Reservation;
 
 public class ManagerSession extends Session {
 	

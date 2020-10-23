@@ -1,4 +1,4 @@
-package agency;
+package rental;
 
 import java.io.Serializable;
 import java.util.Date;

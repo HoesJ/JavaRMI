@@ -1,9 +1,9 @@
-package agency;
+package rental;
 
 import java.rmi.RemoteException;
 import java.util.Set;
 
-import rental.ICarRentalCompany;
+import company.ICarRentalCompany;
 
 public interface IRentalAgency extends java.rmi.Remote {
 

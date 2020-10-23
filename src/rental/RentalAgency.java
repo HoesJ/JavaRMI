@@ -1,10 +1,10 @@
-package agency;
+package rental;
 
 import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Set;
 
-import rental.ICarRentalCompany;
+import company.ICarRentalCompany;
 
 public class RentalAgency implements IRentalAgency {
 	
