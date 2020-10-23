@@ -53,8 +53,12 @@ public class ReservationSession extends Session {
 		for (ICarRentalCompany company : agency.getCompanies()) {
 			try {
 				quotes.add(company.createQuote(constraints, client));
-				break;
+				return;
 			} catch (ReservationException exception) {
+				continue;
+			}
+			// For if there is no car with the given car type in the current car rental company.
+			catch (IllegalArgumentException exception) {
 				continue;
 			}
 		}
@@ -93,8 +97,10 @@ public class ReservationSession extends Session {
 	/**
 	 * Get the set of available car types in a given region for a given period.
 	 */
-	public Set<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
-		Set<CarType> types = new HashSet<>();
+	// Note: we use list here as return type, because the method equals is not properly
+	//		 implemented by the class CarType.
+	public List<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
+		List<CarType> types = new ArrayList<>();
 		for (ICarRentalCompany company : agency.getCompanies()) {
 			if (company.getRegions().contains(region))
 				types.addAll(company.getAvailableCarTypes(start, end));
@@ -107,9 +113,14 @@ public class ReservationSession extends Session {
 	 * Get the cheapest available car type in a given region for a given period.
 	 */
 	public CarType getCheapestCarType(Date start, Date end, String region) throws RemoteException {
-		return getAvailableCarTypesForRegion(start, end, region).stream().reduce((CarType type1, CarType type2) ->
-														 				 		 (type1.getRentalPricePerDay() < type2.getRentalPricePerDay()) ?
-														 				 		  type1 : type2).get();
+		// Note: we cannot use streams here, because the method equals is not properly
+		//		 implemented by the class CarType.
+		CarType currentBestCarType = null;
+		for (CarType type : getAvailableCarTypesForRegion(start, end, region))
+			if (currentBestCarType == null || type.getRentalPricePerDay() < currentBestCarType.getRentalPricePerDay())
+				currentBestCarType = type;
+		
+		return currentBestCarType;
 	}
 	
 }
