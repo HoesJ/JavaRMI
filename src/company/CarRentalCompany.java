@@ -96,7 +96,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 
 	@Override
-	public Set<CarType> getAvailableCarTypes(Date start, Date end) {
+	public synchronized Set<CarType> getAvailableCarTypes(Date start, Date end) {
 		Set<CarType> availableCarTypes = new HashSet<CarType>();
 		for (Car car : cars) {
 			if (car.isAvailable(start, end)) {
@@ -133,7 +133,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	 ****************/
 
 	@Override
-	public Quote createQuote(ReservationConstraints constraints, String client) throws ReservationException {
+	public synchronized Quote createQuote(ReservationConstraints constraints, String client) throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Creating tentative reservation for {1} with constraints {2}",
 				new Object[] { name, client, constraints.toString() });
 
@@ -156,7 +156,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 
 	@Override
-	public Reservation confirmQuote(Quote quote) throws ReservationException {
+	public synchronized Reservation confirmQuote(Quote quote) throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Reservation of {1}", new Object[] { name, quote.toString() });
 		List<Car> availableCars = getAvailableCars(quote.getCarType(), quote.getStartDate(), quote.getEndDate());
 		if (availableCars.isEmpty())
@@ -170,7 +170,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 
 	@Override
-	public void cancelReservation(Reservation res) {
+	public synchronized void cancelReservation(Reservation res) {
 		logger.log(Level.INFO, "<{0}> Cancelling reservation {1}", new Object[] { name, res.toString() });
 		getCar(res.getCarId()).removeReservation(res);
 	}
