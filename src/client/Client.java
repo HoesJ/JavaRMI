@@ -56,7 +56,7 @@ public class Client extends AbstractTestManagement<ReservationSession, ManagerSe
 		super(scriptFile);
 		
 		// TODO: get remote registry.
-		Registry registry = LocateRegistry.getRegistry();
+		Registry registry = LocateRegistry.getRegistry("10.10.10.58", 14540);
 		agency = (IRentalAgency) registry.lookup(rentalAgencyName);
 	}
 	

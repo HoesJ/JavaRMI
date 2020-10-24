@@ -27,7 +27,7 @@ public class RentalServer {
 		rental.addCompany("Dockx");
 		
 		IRentalAgency rentalStub = (IRentalAgency) UnicastRemoteObject.exportObject(rental, 0);
-		Registry registry = LocateRegistry.getRegistry();
+		Registry registry = LocateRegistry.getRegistry(14540);
 		registry.rebind(rentalAgencyname, rentalStub);
 	}
 	

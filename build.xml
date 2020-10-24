@@ -40,7 +40,7 @@
        (usually not required)
 	******************************************************** -->
 
-	<property name="local.registryPort" value="1099" />  <!-- Port to be used for `rmiregistry` started through Ant -->
+	<property name="local.registryPort" value="14540" />  <!-- Port to be used for `rmiregistry` started through Ant -->
 	<property name="remote.setupClass" value="client.RemoteSetup" />
 
 	<property name="csvFolder" value="." /> <!-- Folder that contains the `hertz.csv` file -->
@@ -131,7 +131,7 @@
 		</jar>
 	</target>
 
-	<target name="run.remote.server" depends="remote.createjar">
+	<target name="run.remote.server" depends="">
 		<java fork="true" classname="${remote.setupClass}">
 			<classpath refid="cp" />
 			<arg value="${remote.username}" />
