@@ -131,7 +131,7 @@
 		</jar>
 	</target>
 
-	<target name="run.remote.server" depends="">
+	<target name="run.remote.server" depends="remote.createjar">
 		<java fork="true" classname="${remote.setupClass}">
 			<classpath refid="cp" />
 			<arg value="${remote.username}" />
