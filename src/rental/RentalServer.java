@@ -13,7 +13,7 @@ public class RentalServer {
 	
 	public static void main(String[] args) throws ReservationException,
 			NumberFormatException, IOException, NotBoundException {
-		System.setSecurityManager(null);
+		//System.setSecurityManager(null);
 		
 		String rentalAgencyname = "G&H rental service";
 		RentalAgency rental = new RentalAgency(rentalAgencyname);
