@@ -186,10 +186,14 @@ public class CarRentalCompany implements ICarRentalCompany {
 
 	@Override
 	public int getNumberOfReservationsForCarType(String carType) throws RemoteException {
-		int num = 0;
-		for (Car car : cars)
-			num += car.getType().getName().equals(carType) ? car.getNumberReservations() : 0;
-		return num;
+		return cars.stream()
+			.filter(car -> car.getType().getName().equals(carType))
+			.map(car -> car.getNumberReservations())
+			.reduce((x,y) -> x+y).get();
+		// int num = 0;
+		// for (Car car : cars)
+		// 	num += car.getType().getName().equals(carType) ? car.getNumberReservations() : 0;
+		// return num;
 	}
 
 	@Override

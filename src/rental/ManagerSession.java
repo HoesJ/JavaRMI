@@ -81,12 +81,8 @@ public class ManagerSession extends Session {
 	 */
 	private Map<String, Integer> getNumResByRenter() throws RemoteException {
 		Map<String, Integer> numResByRenter = new HashMap<>();
-		for (Reservation reservation : getAllReservations()) {
-			if (numResByRenter.containsKey(reservation.getCarRenter()))
-				numResByRenter.put(reservation.getCarRenter(), numResByRenter.get(reservation.getCarRenter()) + 1);
-			else
-				numResByRenter.put(reservation.getCarRenter(), 1);
-		}
+		for (Reservation reservation : getAllReservations())
+			numResByRenter.put(reservation.getCarRenter(), numResByRenter.getOrDefault(reservation.getCarRenter(), 0) + 1);
 		
 		return numResByRenter;
 	}
@@ -114,17 +110,17 @@ public class ManagerSession extends Session {
 	public CarType getMostPopularCarType(Date start, Date end, String carRentalCompanyName) throws RemoteException {
 		Map<CarType, Integer> numResByCarType = new HashMap<>();
 		for (Car car : getAllCars(carRentalCompanyName)) {
-			long nbReservations = car.getAllReservations().stream().filter(reservation -> start.before(reservation.getStartDate()) &&
-																						  end.after(reservation.getStartDate())).count();
+			long nbReservations = car.getAllReservations().stream()
+				.filter(reservation -> start.before(reservation.getStartDate()) && end.after(reservation.getStartDate()))
+				.count();
 			
-			if (numResByCarType.containsKey(car.getType()))
-				numResByCarType.put(car.getType(), numResByCarType.get(car.getType()) + (int)nbReservations);
-			else
-				numResByCarType.put(car.getType(), (int)nbReservations);
+			numResByCarType.put(car.getType(), numResByCarType.getOrDefault(car.getType(), 0) + (int)nbReservations);
 		}
 		
-		return numResByCarType.entrySet().stream().reduce((Map.Entry<CarType, Integer> entry1, Map.Entry<CarType, Integer> entry2) ->
-														  (entry1.getValue() < entry2.getValue() ? entry2 : entry1)).get().getKey();
+		return numResByCarType.entrySet().stream()
+			.reduce((Map.Entry<CarType, Integer> entry1, Map.Entry<CarType, Integer> entry2) ->
+				(entry1.getValue() < entry2.getValue() ? entry2 : entry1))
+			.get().getKey();
 	}
 	
 }
