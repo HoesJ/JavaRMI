@@ -59,7 +59,7 @@ public class Client extends AbstractTestManagement<ReservationSession, ManagerSe
           if (localOrRemote == REMOTE)
                registry = LocateRegistry.getRegistry("10.10.10.58", 14540);
           else
-               registry = LocateRegistry.getRegistry(14540);
+               registry = LocateRegistry.getRegistry(14540);	// TODO: remove
 		agency = (IRentalAgency) registry.lookup(rentalAgencyName);
 	}
 	

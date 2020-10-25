@@ -29,7 +29,7 @@ public class RentalAgency implements IRentalAgency {
 	 */
 	@Override
 	public void addCompany(String crcName) throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry(14540);
+		Registry registry = LocateRegistry.getRegistry(14540);	// TODO: remove
 		companies.add((ICarRentalCompany) registry.lookup(crcName));
 	}
 	
