@@ -36,4 +36,12 @@ public interface IRentalAgency extends java.rmi.Remote {
 	
 	public Set<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException;
 	
+	public int getNumberOfReservationsForCarType(String company, String type) throws RemoteException;
+	
+	public Set<String> getBestRenters() throws RemoteException;
+	
+	public int getNumResByRenter(String name) throws RemoteException;
+	
+	public CarType getMostPopularCarType(Date start, Date end, String carRentalCompanyName) throws RemoteException;
+	
 }

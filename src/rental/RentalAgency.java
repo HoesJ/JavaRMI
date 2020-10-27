@@ -6,9 +6,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import company.CarType;
 import company.ICarRentalCompany;
@@ -151,6 +154,55 @@ public class RentalAgency implements IRentalAgency {
 		}
 		
 		return types;
+	}
+	
+	/**
+	 * Get the number of reservations for a specific company and a car type.
+	 */
+	@Override
+	public int getNumberOfReservationsForCarType(String company, String type) throws RemoteException {
+		return getCompany(company).getNumberOfReservationsForCarType(type);
+	}
+	
+	/**
+	 * Get a map that gives the number of reservations per renter.
+	 */
+	private Map<String, Integer> getNumResByRenter() throws RemoteException {
+		Map<String, Integer> numResByRenter = new HashMap<>();
+		for (ICarRentalCompany company : getCompanies()) {
+			Map<String, Integer> companyNumResByRenter = company.getNumResByRenter();
+			for (Map.Entry<String, Integer> entry : companyNumResByRenter.entrySet())
+				numResByRenter.put(entry.getKey(), numResByRenter.getOrDefault(entry.getKey(), 0) + entry.getValue());
+		}
+		
+		return numResByRenter;
+	}
+	
+	/**
+	 * Get the set of all renters that have the highest number of reservations.
+	 */
+	@Override
+	public Set<String> getBestRenters() throws RemoteException {
+		Map<String, Integer> numResByRenter = getNumResByRenter();
+		int highestValue = numResByRenter.values().stream().reduce((Integer num1, Integer num2) -> (num1 < num2 ? num2 : num1)).get();
+		return numResByRenter.keySet().stream().filter(name -> numResByRenter.get(name) == highestValue).collect(Collectors.toSet());
+	}
+	
+	/**
+	 * Get the number of reservations for a specific renter.
+	 */
+	@Override
+	public int getNumResByRenter(String name) throws RemoteException {
+		Integer numRes = getNumResByRenter().get(name);
+		return numRes == null ? 0 : numRes;
+	}
+	
+	/**
+	 * Get the most popular car type for a given car rental company in a specific period.
+	 */
+	@Override
+	public CarType getMostPopularCarType(Date start, Date end, String carRentalCompanyName) throws RemoteException {
+		return getCompany(carRentalCompanyName).getMostPopularCarType(start, end);
 	}
 	
 }
