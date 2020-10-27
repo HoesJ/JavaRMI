@@ -1,6 +1,5 @@
 package company;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -8,12 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Car implements Serializable {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7972356256525364645L;
+public class Car {
 	
 	private int id;
     private CarType type;
