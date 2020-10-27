@@ -97,10 +97,8 @@ public class ReservationSession extends Session {
 	/**
 	 * Get the set of available car types in a given region for a given period.
 	 */
-	// Note: we use list here as return type, because the method equals is not properly
-	//		 implemented by the class CarType.
-	public List<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
-		List<CarType> types = new ArrayList<>();
+	public Set<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
+		Set<CarType> types = new HashSet<>();
 		for (ICarRentalCompany company : agency.getCompanies()) {
 			if (company.getRegions().contains(region))
 				types.addAll(company.getAvailableCarTypes(start, end));
@@ -113,14 +111,9 @@ public class ReservationSession extends Session {
 	 * Get the cheapest available car type in a given region for a given period.
 	 */
 	public CarType getCheapestCarType(Date start, Date end, String region) throws RemoteException {
-		// Note: we cannot use streams here, because the method equals is not properly
-		//		 implemented by the class CarType.
-		CarType currentBestCarType = null;
-		for (CarType type : getAvailableCarTypesForRegion(start, end, region))
-			if (currentBestCarType == null || type.getRentalPricePerDay() < currentBestCarType.getRentalPricePerDay())
-				currentBestCarType = type;
-		
-		return currentBestCarType;
+		return getAvailableCarTypesForRegion(start, end, region).stream().reduce((type1, type2) ->
+																		  		 (type1.getRentalPricePerDay() < type2.getRentalPricePerDay() ?
+																		  		  type1 : type2)).get();
 	}
 	
 }

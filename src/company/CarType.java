@@ -79,6 +79,7 @@ public class CarType implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		// Note: fixed!
 		if (nbOfSeats != other.nbOfSeats)
 			return false;
 		if (smokingAllowed != other.smokingAllowed)
