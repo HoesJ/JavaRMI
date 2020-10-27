@@ -44,36 +44,6 @@ public class ManagerSession extends Session {
 	}
 	
 	/**
-	 * Get the set of all cars of a specific company.
-	 */
-	/*private Set<Car> getAllCars(String companyName) throws RemoteException {
-		return agency.getCompany(companyName).getAllCars();
-	}*/
-	
-	/**
-	 * Get the set of all cars of all companies.
-	 */
-	/*private Set<Car> getAllCars() throws RemoteException {
-		Set<Car> cars = new HashSet<>();
-		for (ICarRentalCompany company : agency.getCompanies()) {
-			cars.addAll(company.getAllCars());
-		}
-		
-		return cars;
-	}*/
-	
-	/**
-	 * Get the set of all reservations of all companies.
-	 */
-	/*private Set<Reservation> getAllReservations() throws RemoteException {
-    	Set<Reservation> reservations = new HashSet<>();
-    	for (Car car : getAllCars())
-    		reservations.addAll(car.getAllReservations());
-    	
-    	return reservations;
-    }*/
-	
-	/**
 	 * Get a map the gives the number of reservations per renter.
 	 */
 	private Map<String, Integer> getNumResByRenter() throws RemoteException {

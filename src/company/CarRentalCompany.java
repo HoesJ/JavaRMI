@@ -217,6 +217,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	/**
 	 * Get a map the gives the number of reservations per renter.
 	 */
+	@Override
 	public Map<String, Integer> getNumResByRenter() throws RemoteException {
 		Map<String, Integer> numResByRenter = new HashMap<>();
 		for (Car car : cars) {
@@ -230,6 +231,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	/**
 	 * Get the most popular car type in a specific period.
 	 */
+	@Override
 	public CarType getMostPopularCarType(Date start, Date end) throws RemoteException {
 		Map<CarType, Integer> numResByCarType = new HashMap<>();
 		for (Car car : cars) {

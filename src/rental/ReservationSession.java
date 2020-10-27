@@ -1,14 +1,12 @@
 package rental;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import company.CarType;
-import company.ICarRentalCompany;
 import company.Reservation;
 import company.ReservationConstraints;
 import company.ReservationException;
@@ -30,12 +28,7 @@ public class ReservationSession extends Session {
 	 * Get the set of all available car types in a given period.
 	 */
 	private Set<CarType> getAvailableCarTypes(Date start, Date end) throws RemoteException {
-		Set<CarType> types = new HashSet<>();
-		for (ICarRentalCompany company : agency.getCompanies()) {
-			types.addAll(company.getAvailableCarTypes(start, end));
-		}
-		
-		return types;
+		return agency.getAvailableCarTypes(start, end);
 	}
 	
 	/**
@@ -50,20 +43,7 @@ public class ReservationSession extends Session {
 	 * Create a quote for the given client with the given constraints.
 	 */
 	public void createQuote(ReservationConstraints constraints, String client) throws ReservationException, java.rmi.RemoteException {
-		for (ICarRentalCompany company : agency.getCompanies()) {
-			try {
-				quotes.add(company.createQuote(constraints, client));
-				return;
-			} catch (ReservationException exception) {
-				continue;
-			}
-			// For if there is no car with the given car type in the current car rental company.
-			catch (IllegalArgumentException exception) {
-				continue;
-			}
-		}
-		
-		throw new ReservationException("<" + agency.getName() + "> No cars available to satisfy the given constraints.");
+		quotes.add(agency.createQuote(constraints, client));
 	}
 	
 	/**
@@ -77,19 +57,7 @@ public class ReservationSession extends Session {
 	 * Confirm all quotes of this reservation session.
 	 */
 	public List<Reservation> confirmQuotes() throws RemoteException, ReservationException {
-		List<Reservation> reservations = new ArrayList<>();
-		for (Quote quote : quotes) {
-			try {
-				Reservation reservation = agency.getCompany(quote.getRentalCompany()).confirmQuote(quote);
-				reservations.add(reservation);
-			} catch (ReservationException exception) {
-				for (Reservation reservation : reservations) {
-					agency.getCompany(reservation.getRentalCompany()).cancelReservation(reservation);
-				}
-				throw exception;
-			}
-		}
-		
+		List<Reservation> reservations = agency.confirmQuotes(quotes);
 		quotes.clear();
 		return reservations;
 	}
@@ -98,13 +66,7 @@ public class ReservationSession extends Session {
 	 * Get the set of available car types in a given region for a given period.
 	 */
 	public Set<CarType> getAvailableCarTypesForRegion(Date start, Date end, String region) throws RemoteException {
-		Set<CarType> types = new HashSet<>();
-		for (ICarRentalCompany company : agency.getCompanies()) {
-			if (company.getRegions().contains(region))
-				types.addAll(company.getAvailableCarTypes(start, end));
-		}
-		
-		return types;
+		return agency.getAvailableCarTypesForRegion(start, end, region);
 	}
 	
 	/**
