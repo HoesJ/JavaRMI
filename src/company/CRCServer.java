@@ -24,7 +24,7 @@ public class CRCServer {
 		CarRentalCompany crc = new CarRentalCompany(data.name, data.regions, data.cars);
 		
 		ICarRentalCompany rentalStub = (ICarRentalCompany) UnicastRemoteObject.exportObject(crc, 0);
-		Registry registry = LocateRegistry.getRegistry(14540);	// TODO: remove
+		Registry registry = LocateRegistry.getRegistry(14540);
 		registry.rebind(carRentalCompanyName, rentalStub);
 	}
 

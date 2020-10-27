@@ -79,6 +79,15 @@ public class CarType implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (nbOfSeats != other.nbOfSeats)
+			return false;
+		if (smokingAllowed != other.smokingAllowed)
+			return false;
+		if (rentalPricePerDay != other.rentalPricePerDay)
+			return false;
+		if (trunkSpace != other.trunkSpace)
+			return false;
+		
 		return true;
 	}
 }

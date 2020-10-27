@@ -214,8 +214,36 @@ public class CarRentalCompany implements ICarRentalCompany {
 		return out.toString();
 	}
 	
-	public Set<Car> getAllCars() {
-		return new HashSet<>(cars);
+	/**
+	 * Get a map the gives the number of reservations per renter.
+	 */
+	public Map<String, Integer> getNumResByRenter() throws RemoteException {
+		Map<String, Integer> numResByRenter = new HashMap<>();
+		for (Car car : cars) {
+			for (Reservation reservation : car.getAllReservations())
+				numResByRenter.put(reservation.getCarRenter(), numResByRenter.getOrDefault(reservation.getCarRenter(), 0) + 1);
+		}
+		
+		return numResByRenter;
+	}
+	
+	/**
+	 * Get the most popular car type in a specific period.
+	 */
+	public CarType getMostPopularCarType(Date start, Date end) throws RemoteException {
+		Map<CarType, Integer> numResByCarType = new HashMap<>();
+		for (Car car : cars) {
+			long nbReservations = car.getAllReservations().stream()
+				.filter(reservation -> start.before(reservation.getStartDate()) && end.after(reservation.getStartDate()))
+				.count();
+			
+			numResByCarType.put(car.getType(), numResByCarType.getOrDefault(car.getType(), 0) + (int)nbReservations);
+		}
+		
+		return numResByCarType.entrySet().stream()
+			.reduce((Map.Entry<CarType, Integer> entry1, Map.Entry<CarType, Integer> entry2) ->
+				(entry1.getValue() < entry2.getValue() ? entry2 : entry1))
+			.get().getKey();
 	}
 
 }
