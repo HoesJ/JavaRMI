@@ -23,6 +23,8 @@ public interface IRentalAgency extends java.rmi.Remote {
 	ICarRentalCompany getCompany(String name) throws RemoteException;
 
 	Set<ICarRentalCompany> getCompanies() throws RemoteException;
+	
+	public Set<CarType> getCarTypes() throws RemoteException;
 
 	ReservationSession getNewReservationSession(String owner) throws RemoteException;
 

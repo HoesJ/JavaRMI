@@ -73,6 +73,18 @@ public class RentalAgency implements IRentalAgency {
 	}
 	
 	/**
+	 * Get the set of all car types of this rental agency.
+	 */
+	@Override
+	public Set<CarType> getCarTypes() throws RemoteException {
+		Set<CarType> types = new HashSet<>();
+		for (ICarRentalCompany company : companies)
+			types.addAll(company.getAllCarTypes());
+		
+		return types;
+	}
+	
+	/**
 	 * Create a new reservation session.
 	 */
 	@Override

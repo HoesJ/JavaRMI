@@ -118,7 +118,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		throw new IllegalArgumentException("<" + name + "> No car with uid " + uid);
 	}
 
-	private List<Car> getAvailableCars(String carType, Date start, Date end) {
+	private synchronized List<Car> getAvailableCars(String carType, Date start, Date end) {
 		List<Car> availableCars = new LinkedList<Car>();
 		for (Car car : cars) {
 			if (car.getType().getName().equals(carType) && car.isAvailable(start, end)) {
@@ -176,7 +176,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 
 	@Override
-	public List<Reservation> getReservationByRenter(String clientName) throws RemoteException {
+	public synchronized List<Reservation> getReservationByRenter(String clientName) throws RemoteException {
 		List<Reservation> lst = new ArrayList<>();
 
 		for (Car car : cars)
@@ -185,15 +185,11 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 
 	@Override
-	public int getNumberOfReservationsForCarType(String carType) throws RemoteException {
+	public synchronized int getNumberOfReservationsForCarType(String carType) throws RemoteException {
 		return cars.stream()
 			.filter(car -> car.getType().getName().equals(carType))
 			.map(car -> car.getNumberReservations())
-			.reduce((x,y) -> x+y).get();
-		// int num = 0;
-		// for (Car car : cars)
-		// 	num += car.getType().getName().equals(carType) ? car.getNumberReservations() : 0;
-		// return num;
+			.reduce((x, y) -> x + y).get();
 	}
 
 	@Override
@@ -215,10 +211,10 @@ public class CarRentalCompany implements ICarRentalCompany {
 	}
 	
 	/**
-	 * Get a map the gives the number of reservations per renter.
+	 * Get a map that gives the number of reservations per renter.
 	 */
 	@Override
-	public Map<String, Integer> getNumResByRenter() throws RemoteException {
+	public synchronized Map<String, Integer> getNumResByRenter() throws RemoteException {
 		Map<String, Integer> numResByRenter = new HashMap<>();
 		for (Car car : cars) {
 			for (Reservation reservation : car.getAllReservations())
@@ -232,7 +228,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	 * Get the most popular car type in a specific period.
 	 */
 	@Override
-	public CarType getMostPopularCarType(Date start, Date end) throws RemoteException {
+	public synchronized CarType getMostPopularCarType(Date start, Date end) throws RemoteException {
 		Map<CarType, Integer> numResByCarType = new HashMap<>();
 		for (Car car : cars) {
 			long nbReservations = car.getAllReservations().stream()

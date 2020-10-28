@@ -34,6 +34,20 @@ public class ManagerSession extends Session {
 	}
 	
 	/**
+	 * Get the full set of car rental companies.
+	 */
+	public Set<ICarRentalCompany> getCompanies() throws RemoteException {
+		return agency.getCompanies();
+	}
+	
+	/**
+	 * Get the set of all car types of the rental agency.
+	 */
+	public Set<CarType> getCarTypes() throws RemoteException {
+		return agency.getCarTypes();
+	}
+	
+	/**
 	 * Get the number of reservations for a specific company and a car type.
 	 */
 	public int getNumberOfReservationsForCarType(String company, String type) throws RemoteException {
